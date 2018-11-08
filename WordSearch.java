@@ -53,10 +53,10 @@ public class WordSearch{
      */
     public boolean addWordHorizontal(String word,int row, int col){
       // testing if the word can be added
-      if (word.length() >= data[i].length - col){
-        return false;
-      }
       for (int i = 0; i < word.length(); i++){
+        if (word.length() >= data[i].length - col){
+          return false;
+        }
         if ((data[row][col + i] != '_') && (data[row][col + i] != word.charAt(i))){
           return false;
         }
@@ -81,11 +81,11 @@ public class WordSearch{
      */
     public boolean addWordVertical(String word,int row, int col){
       // testing if the word can be added
-      if (word.length() + row >= data[i].length){
-        return false;
-      }
       for (int i = 0; i < word.length(); i++){
-        if ((data[row + i][col] != '_') && (data[row + i][col] != word.charAt(i)){
+        if (word.length() + row >= data[i].length){
+          return false;
+        }
+        if ((data[row + i][col] != '_') && (data[row + i][col] != word.charAt(i))){
           return false;
         }
       }

@@ -29,7 +29,8 @@ public class WordSearch{
       }
     }
 
-    public WordSearch( int rows, int cols, String fileName, int randSeed){
+    public WordSearch(int rows, int cols, String fileName, int randSeed){
+      data = new char[rows][cols];
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
@@ -69,7 +70,7 @@ public class WordSearch{
     *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
     *        OR there are overlapping letters that do not match
     */
-   private boolean addWord(String word,int row, int col, int rowIncrement, int colIncrement){
+   private boolean addWord(String word, int row, int col, int rowIncrement, int colIncrement){
    }
 
    /*[rowIncrement,colIncrement] examples:
@@ -79,7 +80,7 @@ public class WordSearch{
     */
 
     private void addAllWords(){
-      
+
     }
 
 

@@ -1,6 +1,6 @@
 import java.util.*; //random, scanner, arraylist
 import java.io.*; //file, filenotfoundexception
-public class WordSearch{
+public class WordSearch [rows cols filename [randomSeed [answers]]]{
     private char[][]data;
 
     //the random seed used to produce this WordSearch
@@ -31,6 +31,7 @@ public class WordSearch{
 
     public WordSearch(int rows, int cols, String fileName, int randSeed){
       data = new char[rows][cols];
+      
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
@@ -72,6 +73,7 @@ public class WordSearch{
     *        OR there are overlapping letters that do not match
     */
    private boolean addWord(String word, int row, int col, int rowIncrement, int colIncrement){
+     word = word.toUpperCase();
      for (int i = 0; i < word.length(); i++){
        if (row < 0 || col < 0){
          return false;
@@ -90,12 +92,11 @@ public class WordSearch{
          return false;
        }
      }
-     for (int x = 0; x < word.length; x++){
-       data[row + i * rowIncrement][col + i * colIncrement] = word.charAt(x);
+     for (int x = 0; x < word.length(); x++){
+       data[row + x * rowIncrement][col + x * colIncrement] = word.charAt(x);
      }
      return true;
    }
-
    /*[rowIncrement,colIncrement] examples:
     *[-1,1] would add up and the right because (row -1 each time, col + 1 each time)
     *[ 1,0] would add downwards because (row+1), with no col change
@@ -103,18 +104,36 @@ public class WordSearch{
     */
 
     private void addAllWords(){
-      // we need fails
-      int fails = 0;
+      // we need tries
+      int tries = 0;
       for (int i = 0; i < wordsToAdd.size(); i++){
-        Random startRow = new Random();
-        Random startCol = new Random();
-        Random incRow = new Random();
-        Random incCol = new Random();
-        int startRowHere = startRow % data.length;
-        int startColHere = startCol % data[0].length;
-        data.addWord(wordsToAdd[i], startRowHere, startColHere)
+        String target = wordsToAdd.get(i);
+        int startRowHere = randgen.nextInt() % data.length;
+        int startColHere = randgen.nextInt() % data[0].length;
+        int incRowHere = randgen.nextInt(3) - 1;
+        int incColHere = randgen.nextInt(3) - 1;
+        tries = 0;
+        if (data.addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
+          while (tries < 5 && data.addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
+            tries = tries + 1;
+            if (data.addWord(target, startRowHere, startColHere, incRowHere, incColHere) == true){
+              wordsAdded.add(target);
+              wordsToAdd.remove(i);
+            }
+          }
+          if (wordsAdded.contains(target) == true){
+            wordsAdded.add(target);
+            wordsToAdd.remove(i);
+          }
+          else{
+            wordsToAdd.remove(i);
+          }
+        }
+        if (data.addWord(target, startRowHere, startColHere, incRowHere, incColHere) == true){
+          wordsAdded.add(target);
+          wordsToAdd.remove(i);
+        }
       }
-
     }
 
 
@@ -195,7 +214,7 @@ public class WordSearch{
        return false;
      }
      for (int i = 0; i < word.length(); i++){
-       if (data[row+i][col+i] != '_' && data[row+i][col+i] != word.charAt(i)){
+       if (data[row + i][col + i] != '_' && data[row + i][col + i] != word.charAt(i)){
          return false;
        }
      }
@@ -204,4 +223,21 @@ public class WordSearch{
      }
      return true;
    }
+
+/*
+   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+    public static void main(String[]args){
+      int seed = (int)(Math.random()*100000);
+      if(args.length > 0){
+        seed = Integer.parseInt(args[0]);
+      }
+      System.out.println("This is your seed: "+seed);
+
+      Random randgen = new Random(seed);
+      for(int i=0;i<10;i++){
+        System.out.print(randgen.nextInt()%100+" ");
+      }
+      System.out.println();
+    }
 }

@@ -49,10 +49,11 @@ public class WordSearch{
     public String toString(){
       String puzzle = "";
       for (int i = 0; i < data.length; i++){
+        puzzle = puzzle + "| ";
         for (int x = 0; x < data[i].length; x++){
           puzzle = puzzle + data[i][x] + " ";
         }
-        puzzle = puzzle + "\n";
+        puzzle = puzzle + " |\n";
       }
       return puzzle;
     }
@@ -71,6 +72,28 @@ public class WordSearch{
     *        OR there are overlapping letters that do not match
     */
    private boolean addWord(String word, int row, int col, int rowIncrement, int colIncrement){
+     for (int i = 0; i < word.length(); i++){
+       if (row < 0 || col < 0){
+         return false;
+       }
+       if (rowIncrement == 0 && colIncrement == 0){
+         return false;
+       }
+       // have to check if it fits
+       if (row + i * rowIncrement >= data.length || col + i * colIncrement >= data.length){
+         return false;
+       }
+       if (row + i * rowIncrement < 0 || col + i * colIncrement < 0){
+         return false;
+       }
+       if (data[row + i * rowIncrement][col + i * colIncrement] != '_' && data[row + i * rowIncrement][col + i * colIncrement] != word.charAt(i)){
+         return false;
+       }
+     }
+     for (int x = 0; x < word.length; x++){
+       data[row + i * rowIncrement][col + i * colIncrement] = word.charAt(x);
+     }
+     return true;
    }
 
    /*[rowIncrement,colIncrement] examples:
@@ -80,6 +103,17 @@ public class WordSearch{
     */
 
     private void addAllWords(){
+      // we need fails
+      int fails = 0;
+      for (int i = 0; i < wordsToAdd.size(); i++){
+        Random startRow = new Random();
+        Random startCol = new Random();
+        Random incRow = new Random();
+        Random incCol = new Random();
+        int startRowHere = startRow % data.length;
+        int startColHere = startCol % data[0].length;
+        data.addWord(wordsToAdd[i], startRowHere, startColHere)
+      }
 
     }
 

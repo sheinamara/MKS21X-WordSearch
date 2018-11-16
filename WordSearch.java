@@ -16,27 +16,50 @@ public class WordSearch{
     private ArrayList<String>wordsAdded;
 
     public static void main(String[]args){
-      String directions = "\nTo make your wonderful Word Search, you need to give me (the terminal) three things!\n
-      Please enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in too right after the three necessary parameters! It should look like: java WordSearch <row> <col> <fileName> <seed>.\n
-      Completely sick and tired of your puzzle and want to know the answers? Enter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive."
-
+      String directions = "\nTo make your wonderful Word Search, you need to give me (the terminal) three things!\nPlease enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in too right after the three necessary parameters! It should look like: java WordSearch <row> <col> <fileName> <seed>.\nCompletely sick and tired of your puzzle and want to know the answers? Enter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive.";
       if (args.length < 3){
         System.out.println(directions);
       }
       if (args.length == 3){
-
+        try{
+          int roaringRows = Integer.parseInt(args[0]);
+          int coolCols = Integer.parseInt(args[1]);
+          String fabulousFile = args[2];
+          int superSeed = (int)(Math.abs(Math.random()*100000));
+          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, superSeed);
+          System.out.println(theUltimateWordSearch);
+        }
+        catch(NumberFormatException e){
+          System.out.println(directions);
+        }
       }
-      int seed = (int)(Math.random()*100000);
-      if(args.length > 0){
-        seed = Integer.parseInt(args[0]);
+      if (args.length == 4){
+        try{
+          int roaringRows = Integer.parseInt(args[0]);
+          int coolCols = Integer.parseInt(args[1]);
+          String fabulousFile = args[2];
+          int superSeed = Integer.parseInt(args[3]);
+          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, superSeed);
+          System.out.println(theUltimateWordSearch);
+        }
+        catch(NumberFormatException e){
+          System.out.println(directions);
+        }
       }
-      System.out.println("This is your seed: "+seed);
-
-      Random randgen = new Random(seed);
-      for(int i=0;i<10;i++){
-        System.out.print(randgen.nextInt()%100+" ");
+      if (args.length == 5){
+        try{
+          int roaringRows = Integer.parseInt(args[0]);
+          int coolCols = Integer.parseInt(args[1]);
+          String fabulousFile = args[2];
+          int superSeed = Integer.parseInt(args[3]);
+          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, superSeed);
+          theUltimateWordSearch.answers();
+          System.out.println(theUltimateWordSearch);
+        }
+        catch(NumberFormatException e){
+          System.out.println(directions);
+        }
       }
-      System.out.println();
     }
 
     /**Initialize the grid to the size specified
@@ -75,7 +98,7 @@ public class WordSearch{
     /**Reads the file and catches invalid fileNames*/
     private void readFile(String fileName){
       try{
-        File toRead = new File(filename);
+        File toRead = new File(fileName);
         Scanner search = new Scanner(toRead);
         while (search.hasNext()){ // returns true if this scanner has another token in its input
           wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
@@ -97,7 +120,7 @@ public class WordSearch{
             if (replacement < 0){
               replacement = replacement * -1;
             }
-            char randomLetter = alphabet.charAt(replacement);
+            char randomLetter = alpha.charAt(replacement);
             data[i][x] = randomLetter;
           }
         }
@@ -105,7 +128,7 @@ public class WordSearch{
     }
 
     /**Removes the random letters which ultimately reveals the answers*/
-    private void answers(){
+    public void answers(){
       for (int i = 0; i < data.length; i++){
         for (int x = 0; x < data[x].length; x++){
           if (data[i][x] == '_'){

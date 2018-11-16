@@ -23,7 +23,6 @@ public class WordSearch{
       if (args.length < 3){
         System.out.println(directions);
       }
-
       if (args.length == 3){
 
       }
@@ -84,7 +83,35 @@ public class WordSearch{
         addAllWords();
       }
       catch(FileNotFoundException e){
-        System.out.println("Check your file! This was not found: " + fileName);
+        System.out.println("Does your file exist? This was not found: " + fileName);
+      }
+    }
+
+    /**Fills the grid with random letters*/
+    private void fillIn(){
+      String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      for (int i = 0; i < data.length; i++){
+        for (int x = 0; x < data[x].length; x++){
+          if (data[i][x] == '_'){
+            int replacement = randgen.nextInt() % 27; // 26 letters in the alphabet!!!
+            if (replacement < 0){
+              replacement = replacement * -1;
+            }
+            char randomLetter = alphabet.charAt(replacement);
+            data[i][x] = randomLetter;
+          }
+        }
+      }
+    }
+
+    /**Removes the random letters which ultimately reveals the answers*/
+    private void answers(){
+      for (int i = 0; i < data.length; i++){
+        for (int x = 0; x < data[x].length; x++){
+          if (data[i][x] == '_'){
+            data[i][x] = ' ';
+          }
+        }
       }
     }
 
@@ -93,6 +120,7 @@ public class WordSearch{
      *separated by newlines.
      */
     public String toString(){
+      // the actual grid
       String puzzle = "";
       for (int i = 0; i < data.length; i++){
         puzzle = puzzle + "| ";
@@ -101,8 +129,21 @@ public class WordSearch{
         }
         puzzle = puzzle + " |\n";
       }
+      // the list of words in the puzzle
+      String whatToSearch = "";
+      for (int x = 0; x < wordsAdded.size(); x++){
+        if (x != wordsAdded.size() - 1){
+          whatToSearch = whatToSearch + wordsAdded.get(x) + ", ";
+        }
+        else{
+          whatToSearch = whatToSearch + wordsAdded.get(x);
+        }
+      }
+      // adding it all together to print
+      puzzle = puzzle + "Words: " + whatToSearch + "\nSeed: " + seed;
       return puzzle;
     }
+
 
     /**Attempts to add a given word to the specified position of the WordGrid.
     *The word is added in the direction rowIncrement,colIncrement

@@ -84,6 +84,7 @@ public class WordSearch{
       }
       randgen = new Random(seed);
       readFile(fileName); // WE NEED THIS FUNCTION
+      fillIn();
     }
 
     /**Set all values in the WordSearch to underscores'_'*/

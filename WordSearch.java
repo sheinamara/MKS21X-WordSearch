@@ -1,6 +1,6 @@
 import java.util.*; //random, scanner, arraylist
 import java.io.*; //file, filenotfoundexception
-public class WordSearch [rows cols filename [randomSeed [answers]]]{
+public class WordSearch{
     private char[][]data;
 
     //the random seed used to produce this WordSearch
@@ -15,6 +15,31 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
     //all words that were successfully added get moved into wordsAdded.
     private ArrayList<String>wordsAdded;
 
+    public static void main(String[]args){
+      String directions = "\nTo make your wonderful Word Search, you need to give me (the terminal) three things!\n
+      Please enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in too right after the three necessary parameters! It should look like: java WordSearch <row> <col> <fileName> <seed>.\n
+      Completely sick and tired of your puzzle and want to know the answers? Enter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive."
+
+      if (args.length < 3){
+        System.out.println(directions);
+      }
+
+      if (args.length == 3){
+
+      }
+      int seed = (int)(Math.random()*100000);
+      if(args.length > 0){
+        seed = Integer.parseInt(args[0]);
+      }
+      System.out.println("This is your seed: "+seed);
+
+      Random randgen = new Random(seed);
+      for(int i=0;i<10;i++){
+        System.out.print(randgen.nextInt()%100+" ");
+      }
+      System.out.println();
+    }
+
     /**Initialize the grid to the size specified
      *and fill all of the positions with '_'
      *@param row is the starting height of the WordSearch
@@ -22,16 +47,21 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
      */
     public WordSearch(int rows,int cols){
       data = new char[rows][cols];
-      for (int i = 0; i < data.length; i++){
-        for (int x = 0; x < data[i].length; x++){
-          data[i][x] = '_';
-        }
-      }
+      clear();
     }
 
     public WordSearch(int rows, int cols, String fileName, int randSeed){
       data = new char[rows][cols];
-      
+      clear();
+      wordsAdded = new ArrayList<String>();
+      wordsToAdd = new ArrayList<String>();
+      randgen = new Random();
+      seed = randgen.nextInt() % 10001; // 0-10000 inclusive
+      if (seed < 0){
+        seed = seed * -1;
+      }
+      randgen = new Random(seed);
+      readFile(fileName); // WE NEED THIS FUNCTION
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
@@ -40,6 +70,21 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
         for (int x = 0; x < data[i].length; x++){
           data[i][x] = '_';
         }
+      }
+    }
+
+    /**Reads the file and catches invalid fileNames*/
+    private void readFile(String fileName){
+      try{
+        File toRead = new File(filename);
+        Scanner search = new Scanner(toRead);
+        while (search.hasNext()){ // returns true if this scanner has another token in its input
+          wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
+        }
+        addAllWords();
+      }
+      catch(FileNotFoundException e){
+        System.out.println("Check your file! This was not found: " + fileName);
       }
     }
 
@@ -113,10 +158,10 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
         int incRowHere = randgen.nextInt(3) - 1;
         int incColHere = randgen.nextInt(3) - 1;
         tries = 0;
-        if (data.addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
-          while (tries < 5 && data.addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
+        if (addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
+          while (tries < 5 && addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
             tries = tries + 1;
-            if (data.addWord(target, startRowHere, startColHere, incRowHere, incColHere) == true){
+            if (addWord(target, startRowHere, startColHere, incRowHere, incColHere)){
               wordsAdded.add(target);
               wordsToAdd.remove(i);
             }
@@ -129,14 +174,16 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
             wordsToAdd.remove(i);
           }
         }
-        if (data.addWord(target, startRowHere, startColHere, incRowHere, incColHere) == true){
+        if (addWord(target, startRowHere, startColHere, incRowHere, incColHere)){
           wordsAdded.add(target);
           wordsToAdd.remove(i);
         }
       }
     }
 
-
+////////////////////////////////////
+//  WE DO NOT NEED THESE METHODS  //
+////////////////////////////////////
     /**Attempts to add a given word to the specified position of the WordGrid.
      *The word is added from left to right, must fit on the WordGrid, and must
      *have a corresponding letter to match any letters that it overlaps.
@@ -148,6 +195,7 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
      * or there are overlapping letters that do not match, then false is returned
      * and the board is NOT modified.
      */
+/*
     public boolean addWordHorizontal(String word,int row, int col){
       // testing if the word can be added
       if (row > data.length || col >= data[row].length || row < 0 || col <0) {
@@ -167,6 +215,7 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
       }
       return true;
     }
+*/
 
    /**Attempts to add a given word to the specified position of the WordGrid.
      *The word is added from top to bottom, must fit on the WordGrid, and must
@@ -179,6 +228,7 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
      *or there are overlapping letters that do not match, then false is returned.
      *and the board is NOT modified.
      */
+/*
     public boolean addWordVertical(String word,int row, int col){
       // testing if the word can be added
       if (row > data.length || col >= data[row].length || row < 0 || col <0) {
@@ -198,6 +248,7 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
       }
       return true;
     }
+*/
 
     /**Attempts to add a given word to the specified position of the WordGrid.
     *The word is added from top left to bottom right, must fit on the WordGrid,
@@ -209,6 +260,7 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
     *@return true when the word is added successfully. When the word doesn't fit,
     *or there are overlapping letters that do not match, then false is returned.
     */
+/*
    public boolean addWordDiagonal(String word,int row, int col){
      if (word.length() > data.length-row || word.length() > data[row].length - col || row < 0 || col < 0) {
        return false;
@@ -223,21 +275,6 @@ public class WordSearch [rows cols filename [randomSeed [answers]]]{
      }
      return true;
    }
-
-/*
-   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-    public static void main(String[]args){
-      int seed = (int)(Math.random()*100000);
-      if(args.length > 0){
-        seed = Integer.parseInt(args[0]);
-      }
-      System.out.println("This is your seed: "+seed);
 
-      Random randgen = new Random(seed);
-      for(int i=0;i<10;i++){
-        System.out.print(randgen.nextInt()%100+" ");
-      }
-      System.out.println();
-    }
 }

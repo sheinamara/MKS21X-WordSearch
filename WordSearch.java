@@ -1,3 +1,10 @@
+//////////////////////
+// TESTING TERMINAL //
+//////////////////////
+// 3 Arguments:
+//    YES; gives directions when we don't have all arguments or have an invalid fileName
+// 4 Arguments:
+// 5 Arguments:
 import java.util.*; //random, scanner, arraylist
 import java.io.*; //file, filenotfoundexception
 public class WordSearch{
@@ -16,7 +23,7 @@ public class WordSearch{
     private ArrayList<String>wordsAdded;
 
     public static void main(String[]args){
-      String directions = "\nTo make your wonderful Word Search, you need to give me (the terminal) three things!\nPlease enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in too right after the three necessary parameters! It should look like: java WordSearch <row> <col> <fileName> <seed>.\nCompletely sick and tired of your puzzle and want to know the answers? Enter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive.";
+      String directions = "\nTo make your wonderful WordSearch, you need to give me (the terminal) three things!\nPlease enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in right after the three necessary parameters!\nIt should look like: java WordSearch <row> <col> <fileName> <seed>.\nCompletely sick and tired of your puzzle and want to know the answers?\nEnter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive.\nAlso, please make sure your input for rows or columns are whole numbers!";
       if (args.length < 3){
         System.out.println(directions);
       }
@@ -101,8 +108,8 @@ public class WordSearch{
       try{
         File toRead = new File(fileName);
         Scanner search = new Scanner(toRead);
-        while (search.hasNext()){ // returns true if this scanner has another token in its input
-          wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
+        while (search.hasNextLine()){ // returns true if this scanner has another token in its input
+          wordsToAdd.add(search.nextLine()); // finds and returns the next complete token from this scanner
         }
         addAllWords();
       }
@@ -117,7 +124,7 @@ public class WordSearch{
       for (int i = 0; i < data.length; i++){
         for (int x = 0; x < data[x].length; x++){
           if (data[i][x] == '_'){
-            int replacement = randgen.nextInt() % 27; // 26 letters in the alphabet!!!
+            int replacement = randgen.nextInt() % 26; // 26 letters in the alphabet!!!
             if (replacement < 0){
               replacement = replacement * -1;
             }

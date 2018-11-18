@@ -100,14 +100,15 @@ public class WordSearch{
       clear();
       wordsAdded = new ArrayList<String>();
       wordsToAdd = new ArrayList<String>();
-      randgen = new Random();
+      readFile(fileName); // WE NEED THIS FUNCTION
+      /*
       seed = randgen.nextInt() % 10001; // 0-10000 inclusive
       if (seed < 0){
         seed = seed * -1;
       }
-      randgen = new Random(seed);
-      readFile(fileName); // WE NEED THIS FUNCTION
+      */
       fillIn();
+      randgen = new Random(seed);
     }
 
     /**Set all values in the WordSearch to underscores'_'*/

@@ -49,19 +49,15 @@ public class WordSearch{
           int coolCols = Integer.parseInt(args[1]);
           String fabulousFile = args[2];
           int seed = Integer.parseInt(args[3]);
-          boolean answers = false;
           if (seed > 10000 || seed < 0){
             throw new IndexOutOfBoundsException();
           }
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           if (args.length > 4){
             if (args[4].equals("key")){
-              answers = true;
+              theUltimateWordSearch.answers();
+              System.out.println(theUltimateWordSearch);
             }
-          }
-          if (answers){
-            theUltimateWordSearch.answers();
-            System.out.println(theUltimateWordSearch);
           }
           else{
             theUltimateWordSearch.fillIn();

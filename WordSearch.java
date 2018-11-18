@@ -1,10 +1,3 @@
-//////////////////////
-// TESTING TERMINAL //
-//////////////////////
-// 3 Arguments:
-//    YES; gives directions when we don't have all arguments or have an invalid fileName
-// 4 Arguments:
-// 5 Arguments:
 import java.util.*; //random, scanner, arraylist
 import java.io.*; //file, filenotfoundexception
 public class WordSearch{
@@ -23,7 +16,7 @@ public class WordSearch{
     private ArrayList<String>wordsAdded;
 
     public static void main(String[]args){
-      String directions = "\nTo make your wonderful WordSearch, you need to give me (the terminal) three things!\nPlease enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in right after the three necessary parameters!\nIt should look like: java WordSearch <row> <col> <fileName> <seed>.\nCompletely sick and tired of your puzzle and want to know the answers?\nEnter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive.\nAlso, please make sure your input for rows or columns are whole numbers!";
+      String directions = "\nTo make your wonderful WordSearch, you need to give me (the terminal) three things!\nPlease enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in right after the three necessary parameters!\nIt should look like: java WordSearch <row> <col> <fileName> <seed>.\nCompletely sick and tired of your puzzle and want to know the answers?\nEnter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive.\nAlso, please make sure your input for rows or columns are whole numbers!\n";
       if (args.length < 3){
         System.out.println(directions);
       }
@@ -34,47 +27,61 @@ public class WordSearch{
           String fabulousFile = args[2];
           int seed = (int)(Math.abs(Math.random()*10000));
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
+          theUltimateWordSearch.fillIn();
           System.out.println(theUltimateWordSearch);
         }
         catch(FileNotFoundException f){
-          System.out.println("Does your file exist? Please check your file name and try again.\n" + directions);
+          System.out.println("Does your file exist? Did you make a typo? Please check your file name and try again.\n" + directions);
         }
         catch(NumberFormatException e){
-          System.out.println("Did you enter in an integer? Or is it something else?\n" + directions);
+          System.out.println("Are you sure you entered in an integer? Or is it a double, object, or something entirely different?\n" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println("Check your index!\n" + directions);
+          System.out.println("Check your index! What is your seed (if you entered one)? Are trying to ask for the answers?\n" + directions);
         }
         catch(NegativeArraySizeException a){
-          System.out.println("We can't have negative rows or columns!\n" + directions);
+          System.out.println("We can't have negative rows or columns! Please change your desired number of rows and/or columns and try again.\n" + directions);
         }
       }
-      if (args.length == 4){
+      if (args.length > 3){
         try{
           int roaringRows = Integer.parseInt(args[0]);
           int coolCols = Integer.parseInt(args[1]);
           String fabulousFile = args[2];
           int seed = Integer.parseInt(args[3]);
-          System.out.println(seed);
+          boolean answers = false;
           if (seed > 10000 || seed < 0){
-            System.out.println(directions);
+            throw new IndexOutOfBoundsException();
           }
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
-          System.out.println(theUltimateWordSearch);
+          if (args.length > 4){
+            if (args[4].equals("key")){
+              answers = true;
+            }
+          }
+          if (answers){
+            theUltimateWordSearch.answers();
+            System.out.println(theUltimateWordSearch);
+          }
+          else{
+            theUltimateWordSearch.fillIn();
+            System.out.println(theUltimateWordSearch);
+          }
         }
         catch(FileNotFoundException f){
-          System.out.println("Does your file exist? Please check your file name and try again.\n" + directions);
+          System.out.println("Does your file exist? Did you make a typo? Please check your file name and try again.\n" + directions);
         }
         catch(NumberFormatException e){
-          System.out.println("Did you enter in an integer? Or is it something else?\n" + directions);
+          System.out.println("Are you sure you entered in an integer? Or is it a double, object, or something entirely different?\n" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println("Check your index!\n" + directions);
+          System.out.println("Check your index! What is your seed (if you entered one)? Are trying to ask for the answers?\n" + directions);
         }
         catch(NegativeArraySizeException a){
-          System.out.println("We can't have negative rows or columns!\n" + directions);
+          System.out.println("We can't have negative rows or columns! Please change your desired number of rows and/or columns and try again.\n" + directions);
         }
       }
+      /*
       if (args.length == 5){
         try{
           int roaringRows = Integer.parseInt(args[0]);
@@ -87,8 +94,8 @@ public class WordSearch{
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           if (args[4].equals("key")){
             theUltimateWordSearch.answers();
-            System.out.println(theUltimateWordSearch);
           }
+          System.out.println(theUltimateWordSearch);
         }
         catch(FileNotFoundException f){
           System.out.println("Does your file exist? Please check your file name and try again.\n" + directions);
@@ -97,12 +104,13 @@ public class WordSearch{
           System.out.println("Did you enter in an integer? Or is it something else?\n" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println("Check your index!\n" + directions);
+          System.out.println("Check your index! Are trying to ask for the answers?\n" + directions);
         }
         catch(NegativeArraySizeException a){
           System.out.println("We can't have negative rows or columns!\n" + directions);
         }
       }
+      */
     }
 
     /**Initialize the grid to the size specified
@@ -128,7 +136,6 @@ public class WordSearch{
         wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
       }
       addAllWords();
-      fillIn();
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
@@ -180,7 +187,7 @@ public class WordSearch{
         for (int x = 0; x < data[i].length; x++){
           puzzle = puzzle + data[i][x] + " ";
         }
-        puzzle = puzzle + " |\n";
+        puzzle = puzzle + "|\n";
       }
       // the list of words in the puzzle
       String whatToSearch = "";

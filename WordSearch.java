@@ -167,7 +167,7 @@ public class WordSearch{
     /**Removes the random letters which ultimately reveals the answers*/
     public void answers(){
       for (int i = 0; i < data.length; i++){
-        for (int x = 0; x < data[x].length; x++){
+        for (int x = 0; x < data[i].length; x++){
           if (data[i][x] == '_'){
             data[i][x] = ' ';
           }

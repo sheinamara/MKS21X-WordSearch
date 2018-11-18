@@ -256,7 +256,7 @@ public class WordSearch{
         int incColHere = randgen.nextInt(3) - 1;
         tries = 0;
         if (addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
-          while (tries < 5 && addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
+          while (tries < 100000 && addWord(target, startRowHere, startColHere, incRowHere, incColHere) == false){
             tries = tries + 1;
             if (addWord(target, startRowHere, startColHere, incRowHere, incColHere)){
               wordsAdded.add(target);

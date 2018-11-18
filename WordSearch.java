@@ -114,7 +114,6 @@ public class WordSearch{
     }
 
     public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
-      String directions = "\nTo make your wonderful WordSearch, you need to give me (the terminal) three things!\nPlease enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in right after the three necessary parameters!\nIt should look like: java WordSearch <row> <col> <fileName> <seed>.\nCompletely sick and tired of your puzzle and want to know the answers?\nEnter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive.\nAlso, please make sure your input for rows or columns are whole numbers!";
       data = new char[rows][cols];
       clear();
       seed = randSeed;

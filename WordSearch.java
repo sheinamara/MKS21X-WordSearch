@@ -36,6 +36,9 @@ public class WordSearch{
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           System.out.println(theUltimateWordSearch);
         }
+        catch(FileNotFoundException f){
+          System.out.println("Does your file exist? Please check your file name and try again." + directions);
+        }
         catch(NumberFormatException e){
           System.out.println("Did you enter in an integer? Or is it something else?" + directions);
         }
@@ -59,6 +62,9 @@ public class WordSearch{
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           System.out.println(theUltimateWordSearch);
         }
+        catch(FileNotFoundException f){
+          System.out.println("Does your file exist? Please check your file name and try again." + directions);
+        }
         catch(NumberFormatException e){
           System.out.println("Did you enter in an integer? Or is it something else?" + directions);
         }
@@ -81,6 +87,9 @@ public class WordSearch{
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           theUltimateWordSearch.answers();
           System.out.println(theUltimateWordSearch);
+        }
+        catch(FileNotFoundException f){
+          System.out.println("Does your file exist? Please check your file name and try again." + directions);
         }
         catch(NumberFormatException e){
           System.out.println("Did you enter in an integer? Or is it something else?" + directions);
@@ -112,18 +121,13 @@ public class WordSearch{
       wordsAdded = new ArrayList<String>();
       wordsToAdd = new ArrayList<String>();
       randgen = new Random(seed);
-      try{
-        File toRead = new File(fileName);
-        Scanner search = new Scanner(toRead);
-        while (search.hasNext()){ // returns true if this scanner has another token in its input
-          wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
-        }
-        addAllWords();
-        fillIn();
+      File toRead = new File(fileName);
+      Scanner search = new Scanner(toRead);
+      while (search.hasNext()){ // returns true if this scanner has another token in its input
+        wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
       }
-      catch(FileNotFoundException f){
-        System.out.println("Does your file exist? Please check your file name and try again." + directions);
-      }
+      addAllWords();
+      fillIn();
     }
 
     /**Set all values in the WordSearch to underscores'_'*/

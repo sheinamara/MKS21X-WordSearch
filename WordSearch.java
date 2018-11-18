@@ -37,16 +37,16 @@ public class WordSearch{
           System.out.println(theUltimateWordSearch);
         }
         catch(FileNotFoundException f){
-          System.out.println("Does your file exist? Please check your file name and try again." + directions);
+          System.out.println("Does your file exist? Please check your file name and try again.\n" + directions);
         }
         catch(NumberFormatException e){
-          System.out.println("Did you enter in an integer? Or is it something else?" + directions);
+          System.out.println("Did you enter in an integer? Or is it something else?\n" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println("Check your index!" + directions);
+          System.out.println("Check your index!\n" + directions);
         }
         catch(NegativeArraySizeException a){
-          System.out.println("We can't have negative rows or columns!" + directions);
+          System.out.println("We can't have negative rows or columns!\n" + directions);
         }
       }
       if (args.length == 4){
@@ -63,16 +63,16 @@ public class WordSearch{
           System.out.println(theUltimateWordSearch);
         }
         catch(FileNotFoundException f){
-          System.out.println("Does your file exist? Please check your file name and try again." + directions);
+          System.out.println("Does your file exist? Please check your file name and try again.\n" + directions);
         }
         catch(NumberFormatException e){
-          System.out.println("Did you enter in an integer? Or is it something else?" + directions);
+          System.out.println("Did you enter in an integer? Or is it something else?\n" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println("Check your index!" + directions);
+          System.out.println("Check your index!\n" + directions);
         }
         catch(NegativeArraySizeException a){
-          System.out.println("We can't have negative rows or columns!" + directions);
+          System.out.println("We can't have negative rows or columns!\n" + directions);
         }
       }
       if (args.length == 5){
@@ -85,20 +85,22 @@ public class WordSearch{
             System.out.println(directions);
           }
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
-          theUltimateWordSearch.answers();
-          System.out.println(theUltimateWordSearch);
+          if (args[4].equals("key")){
+            theUltimateWordSearch.answers();
+            System.out.println(theUltimateWordSearch);
+          }
         }
         catch(FileNotFoundException f){
-          System.out.println("Does your file exist? Please check your file name and try again." + directions);
+          System.out.println("Does your file exist? Please check your file name and try again.\n" + directions);
         }
         catch(NumberFormatException e){
-          System.out.println("Did you enter in an integer? Or is it something else?" + directions);
+          System.out.println("Did you enter in an integer? Or is it something else?\n" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println("Check your index!" + directions);
+          System.out.println("Check your index!\n" + directions);
         }
         catch(NegativeArraySizeException a){
-          System.out.println("We can't have negative rows or columns!" + directions);
+          System.out.println("We can't have negative rows or columns!\n" + directions);
         }
       }
     }

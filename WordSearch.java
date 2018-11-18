@@ -32,11 +32,14 @@ public class WordSearch{
           int roaringRows = Integer.parseInt(args[0]);
           int coolCols = Integer.parseInt(args[1]);
           String fabulousFile = args[2];
-          int superSeed = (int)(Math.abs(Math.random()*100000));
-          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, superSeed);
+          int seed = (int)(Math.abs(Math.random()*10000));
+          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           System.out.println(theUltimateWordSearch);
         }
         catch(NumberFormatException e){
+          System.out.println(directions);
+        }
+        catch(IndexOutOfBoundsException n){
           System.out.println(directions);
         }
       }
@@ -45,11 +48,18 @@ public class WordSearch{
           int roaringRows = Integer.parseInt(args[0]);
           int coolCols = Integer.parseInt(args[1]);
           String fabulousFile = args[2];
-          int superSeed = Integer.parseInt(args[3]);
-          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, superSeed);
+          int seed = Integer.parseInt(args[3]);
+          System.out.println(seed);
+          if (seed > 10000 || seed < 0){
+            System.out.println(directions);
+          }
+          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           System.out.println(theUltimateWordSearch);
         }
         catch(NumberFormatException e){
+          System.out.println(directions);
+        }
+        catch(IndexOutOfBoundsException n){
           System.out.println(directions);
         }
       }
@@ -58,12 +68,18 @@ public class WordSearch{
           int roaringRows = Integer.parseInt(args[0]);
           int coolCols = Integer.parseInt(args[1]);
           String fabulousFile = args[2];
-          int superSeed = Integer.parseInt(args[3]);
-          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, superSeed);
+          int seed = Integer.parseInt(args[3]);
+          if (seed > 10000 || seed < 0){
+            System.out.println(directions);
+          }
+          WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           theUltimateWordSearch.answers();
           System.out.println(theUltimateWordSearch);
         }
         catch(NumberFormatException e){
+          System.out.println(directions);
+        }
+        catch(IndexOutOfBoundsException n){
           System.out.println(directions);
         }
       }
@@ -122,7 +138,7 @@ public class WordSearch{
     private void fillIn(){
       String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       for (int i = 0; i < data.length; i++){
-        for (int x = 0; x < data[x].length; x++){
+        for (int x = 0; x < data[i].length; x++){
           if (data[i][x] == '_'){
             int replacement = randgen.nextInt() % 26; // 26 letters in the alphabet!!!
             if (replacement < 0){

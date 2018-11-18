@@ -36,9 +36,6 @@ public class WordSearch{
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           System.out.println(theUltimateWordSearch);
         }
-        catch(FileNotFoundException f){
-          System.out.println("Does your file exist? Please check your file name and try again." + directions);
-        }
         catch(NumberFormatException e){
           System.out.println("Did you enter in an integer? Or is it something else?" + directions);
         }
@@ -61,9 +58,6 @@ public class WordSearch{
           }
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           System.out.println(theUltimateWordSearch);
-        }
-        catch(FileNotFoundException f){
-          System.out.println("Does your file exist? Please check your file name and try again." + directions);
         }
         catch(NumberFormatException e){
           System.out.println("Did you enter in an integer? Or is it something else?" + directions);
@@ -88,9 +82,6 @@ public class WordSearch{
           theUltimateWordSearch.answers();
           System.out.println(theUltimateWordSearch);
         }
-        catch(FileNotFoundException f){
-          System.out.println("Does your file exist? Please check your file name and try again." + directions);
-        }
         catch(NumberFormatException e){
           System.out.println("Did you enter in an integer? Or is it something else?" + directions);
         }
@@ -113,20 +104,26 @@ public class WordSearch{
       clear();
     }
 
-    public WordSearch(int rows, int cols, String fileName, int randSeed){
+    public WordSearch(int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
+      String directions = "\nTo make your wonderful WordSearch, you need to give me (the terminal) three things!\nPlease enter: java WordSearch <row> <col> <fileName>.\nIf there is a specific seed you want, you can enter it in right after the three necessary parameters!\nIt should look like: java WordSearch <row> <col> <fileName> <seed>.\nCompletely sick and tired of your puzzle and want to know the answers?\nEnter: java WordSearch <row> <col> <fileName> <seed> <key>.\nIf your seed isn't working, remember it must be between 0 and 10000 inclusive.\nAlso, please make sure your input for rows or columns are whole numbers!";
       data = new char[rows][cols];
       clear();
       seed = randSeed;
       wordsAdded = new ArrayList<String>();
       wordsToAdd = new ArrayList<String>();
       randgen = new Random(seed);
-      File toRead = new File(fileName);
-      Scanner search = new Scanner(toRead);
-      while (search.hasNext()){ // returns true if this scanner has another token in its input
-        wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
+      try{
+        File toRead = new File(fileName);
+        Scanner search = new Scanner(toRead);
+        while (search.hasNext()){ // returns true if this scanner has another token in its input
+          wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
+        }
+        addAllWords();
+        fillIn();
       }
-      addAllWords();
-      fillIn();
+      catch(FileNotFoundException f){
+        System.out.println("Does your file exist? Please check your file name and try again." + directions);
+      }
     }
 
     /**Set all values in the WordSearch to underscores'_'*/

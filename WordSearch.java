@@ -180,7 +180,7 @@ public class WordSearch{
       String puzzle = "";
       for (int i = 0; i < data.length; i++){
         puzzle = puzzle + "| ";
-        for (int x = 0; x < data[i].length; x++){
+        for (int x = 0; x < data[0].length; x++){
           puzzle = puzzle + data[i][x] + " ";
         }
         puzzle = puzzle + "|\n";

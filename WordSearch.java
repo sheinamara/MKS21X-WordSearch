@@ -36,11 +36,17 @@ public class WordSearch{
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           System.out.println(theUltimateWordSearch);
         }
+        catch(FileNotFoundException f){
+          System.out.println("Does your file exist? Please check your file name and try again." + directions);
+        }
         catch(NumberFormatException e){
-          System.out.println(directions);
+          System.out.println("Did you enter in an integer? Or is it something else?" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println(directions);
+          System.out.println("Check your index!" + directions);
+        }
+        catch(NegativeArraySizeException a){
+          System.out.println("We can't have negative rows or columns!" + directions);
         }
       }
       if (args.length == 4){
@@ -56,11 +62,17 @@ public class WordSearch{
           WordSearch theUltimateWordSearch = new WordSearch(roaringRows, coolCols, fabulousFile, seed);
           System.out.println(theUltimateWordSearch);
         }
+        catch(FileNotFoundException f){
+          System.out.println("Does your file exist? Please check your file name and try again." + directions);
+        }
         catch(NumberFormatException e){
-          System.out.println(directions);
+          System.out.println("Did you enter in an integer? Or is it something else?" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println(directions);
+          System.out.println("Check your index!" + directions);
+        }
+        catch(NegativeArraySizeException a){
+          System.out.println("We can't have negative rows or columns!" + directions);
         }
       }
       if (args.length == 5){
@@ -76,11 +88,17 @@ public class WordSearch{
           theUltimateWordSearch.answers();
           System.out.println(theUltimateWordSearch);
         }
+        catch(FileNotFoundException f){
+          System.out.println("Does your file exist? Please check your file name and try again." + directions);
+        }
         catch(NumberFormatException e){
-          System.out.println(directions);
+          System.out.println("Did you enter in an integer? Or is it something else?" + directions);
         }
         catch(IndexOutOfBoundsException n){
-          System.out.println(directions);
+          System.out.println("Check your index!" + directions);
+        }
+        catch(NegativeArraySizeException a){
+          System.out.println("We can't have negative rows or columns!" + directions);
         }
       }
     }
@@ -98,17 +116,17 @@ public class WordSearch{
     public WordSearch(int rows, int cols, String fileName, int randSeed){
       data = new char[rows][cols];
       clear();
+      seed = randSeed;
       wordsAdded = new ArrayList<String>();
       wordsToAdd = new ArrayList<String>();
-      readFile(fileName); // WE NEED THIS FUNCTION
-      /*
-      seed = randgen.nextInt() % 10001; // 0-10000 inclusive
-      if (seed < 0){
-        seed = seed * -1;
-      }
-      */
-      fillIn();
       randgen = new Random(seed);
+      File toRead = new File(fileName);
+      Scanner search = new Scanner(toRead);
+      while (search.hasNext()){ // returns true if this scanner has another token in its input
+        wordsToAdd.add(search.next()); // finds and returns the next complete token from this scanner
+      }
+      addAllWords();
+      fillIn();
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
@@ -117,21 +135,6 @@ public class WordSearch{
         for (int x = 0; x < data[i].length; x++){
           data[i][x] = '_';
         }
-      }
-    }
-
-    /**Reads the file and catches invalid fileNames*/
-    private void readFile(String fileName){
-      try{
-        File toRead = new File(fileName);
-        Scanner search = new Scanner(toRead);
-        while (search.hasNextLine()){ // returns true if this scanner has another token in its input
-          wordsToAdd.add(search.nextLine()); // finds and returns the next complete token from this scanner
-        }
-        addAllWords();
-      }
-      catch(FileNotFoundException e){
-        System.out.println("Does your file exist? This was not found: " + fileName);
       }
     }
 
